@@ -8,6 +8,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static org.assertj.core.api.Fail.fail;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class CalculatorTestSuite {
@@ -28,19 +30,16 @@ public class CalculatorTestSuite {
         Assert.assertEquals(15, div, 1);
     }
 
-    @Test
-    public void testCalculatorDivisionByZero() {
+    @Test(expected = ArithmeticException.class)
+    public void testCalculatorDivisionByZero() throws Exception {
         //Given
         ApplicationContext context = new AnnotationConfigApplicationContext("com.kodilla.spring");
         Calculator calculator = context.getBean(Calculator.class);
+
         //When
-        try {
-            double result = calculator.div(45, 0);
-            System.out.println(result);
-        } catch (ArithmeticException e) {
-            System.out.println("Cannot divide by 0\n" + e);
-        }
+        calculator.div(45, 0);
+
         //Then
-        //do nothing
+        fail("Cannot divide by 0");
     }
 }
