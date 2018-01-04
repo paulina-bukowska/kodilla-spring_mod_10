@@ -3,36 +3,30 @@ package com.kodilla.spring.portfolio;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
-
-import java.util.List;
+import java.util.ArrayList;
 
 @Configuration
 public class BoardConfig {
-    Board board;
-
     @Bean
     public Board getBoard() {
-        return new Board();
+        return new Board(getToDoList(), getInProgressList(), getDoneList());
     }
 
     @Bean
     @Scope("prototype")
-    public TaskList addTaskToDo() {
-        board.getToDoList().getTasks().add("Feed cats");
-        return new TaskList();
+    public TaskList getToDoList() {
+        return new TaskList(new ArrayList<>());
     }
 
     @Bean
     @Scope("prototype")
-    public TaskList addTaskInProgress() {
-        board.getToDoList().getTasks().add("Adjust TV");
-        return new TaskList();
+    public TaskList getInProgressList() {
+        return new TaskList(new ArrayList<>());
     }
 
     @Bean
     @Scope("prototype")
-    public TaskList addTaskDone() {
-        board.getToDoList().getTasks().add("Walk my doggy");
-        return new TaskList();
+    public TaskList getDoneList() {
+        return new TaskList(new ArrayList<>());
     }
 }
