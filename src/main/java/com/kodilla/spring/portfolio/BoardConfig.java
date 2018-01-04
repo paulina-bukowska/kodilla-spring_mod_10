@@ -1,54 +1,38 @@
 package com.kodilla.spring.portfolio;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
 public class BoardConfig {
-    @Autowired
-    @Qualifier("toDo")
-    private TaskList tasksToDo;
-
-    @Autowired
-    @Qualifier("inProgress")
-    private TaskList tasksInProgress;
-
-    @Autowired
-    @Qualifier("done")
-    private TaskList tasksDone;
+    Board board;
 
     @Bean
     public Board getBoard() {
-        return new Board(tasksToDo, tasksInProgress, tasksDone);
+        return new Board();
     }
 
-    @Bean(name = "toDo")
+    @Bean
     @Scope("prototype")
     public TaskList addTaskToDo() {
-        List<String> toDoList = new ArrayList<>();
-        toDoList.add("feed cats");
-        return new TaskList(toDoList);
+        board.getToDoList().getTasks().add("Feed cats");
+        return new TaskList();
     }
 
-    @Bean(name = "inProgress")
+    @Bean
     @Scope("prototype")
     public TaskList addTaskInProgress() {
-        List<String> inProgressList = new ArrayList<>();
-        inProgressList.add("programming");
-        return new TaskList(inProgressList);
+        board.getToDoList().getTasks().add("Adjust TV");
+        return new TaskList();
     }
 
-    @Bean(name = "done")
+    @Bean
     @Scope("prototype")
     public TaskList addTaskDone() {
-        List<String> doneList = new ArrayList<>();
-        doneList.add("walk my doggy");
-        return new TaskList(doneList);
+        board.getToDoList().getTasks().add("Walk my doggy");
+        return new TaskList();
     }
 }
